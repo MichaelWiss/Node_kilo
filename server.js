@@ -1,10 +1,11 @@
-var http = require('http');
+var express = require('express');
+var app = express();
 
-http.createServer(function(req, res) {
-	res.writeHead(200, {
-	   'Content-Type': 'text/plain'
-	});
-	res.end('Hello World');
-}).listen(3000);
+app.use('/', function(req,res) {
+	res.send('Hello World');
+});
 
-console.log('Server running');
+app.listen(3000);
+console.log('server running');
+
+module.exports = app;
