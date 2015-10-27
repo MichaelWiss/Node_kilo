@@ -5,7 +5,7 @@ var config = require('./config'),
    bodyParser= require('body-parser'),
    methodOverride= require('method-override');
    session = require('express-session');
-   session = require('express-session');
+  
 
 module.exports = function() {
 	var app = express();
