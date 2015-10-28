@@ -1,3 +1,5 @@
+'use strict';
+
 var User = require('mongoose').model('User');
 
 exports.create = function(req, res, next) {
@@ -7,8 +9,8 @@ exports.create = function(req, res, next) {
 	if (err) {
 	   return next(err);
 	} else {
-	res.json(user);
-	}
+	         res.json(user);
+	      }
 	});
 };
 
@@ -21,3 +23,21 @@ exports.list = function(req, res, next) {
 		}
 	});
 };
+
+exports.read = function(req, res) {
+	res.json(req.user);
+};
+
+exports.userByID = function(req, res, next, id) {
+
+  	User.findOne({
+  		_id: id
+  	}, function(err, user) {
+  		if (err) {
+  			return next(err);
+  		} else {
+  			req.user = user;
+  			next();
+       }
+  	});
+  };
