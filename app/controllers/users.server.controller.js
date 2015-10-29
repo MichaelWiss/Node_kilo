@@ -51,3 +51,13 @@ exports.userByID = function(req, res, next, id) {
         }
   	});
   };
+
+  exports.delete = function(req, res, next) {
+  	req.user.remove(function(err) {
+  		if (err) {
+  			return next(err);
+    }  else {
+    	res.json(req.user);
+    }
+   })
+  };
