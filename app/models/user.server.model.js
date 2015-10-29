@@ -6,10 +6,19 @@ var mongoose = require('mongoose'),
 var UserSchema = new Schema({
 	firstName : String,
 	lastName : String,
-	email : String,
+	email : {
+		type: String,
+		index: true,
+		match: /.+\@.+\..+/
+       },
 	username : {
         type: String,
-        trim: true
+        trim: true,
+        unique: true,
+    },
+    role: {
+    	type: String,
+    	enum: ['Admin', 'Owner', 'User']
     },
 	password : String,
 	created: {
@@ -18,7 +27,7 @@ var UserSchema = new Schema({
 	},
 	website: {
 		type: String,
-		set: function(url){
+		get: function(url){
 			if (!url) {
 				return url;
 			} else {
@@ -28,7 +37,11 @@ var UserSchema = new Schema({
 				return url;
 			}
 		}
-	}
+	},
 });
 
+
+
 mongoose.model('User', UserSchema);
+
+UserSchema.set('toJSON', {getter:true});
