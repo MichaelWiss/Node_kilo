@@ -9,6 +9,7 @@ exports.render = function(req, res) {
 
 	
 	res.render('index', {
-		title: 'Hello My World'
+		title: 'Hello My World',
+		userFullName: req.user ? req.user.fullName : ''
 	});
 };
