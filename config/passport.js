@@ -11,11 +11,15 @@ module.exports = function() {
 		done(null, user.id);
 	});
 
-passport.deserializeUser(function(id, done) {
-   User.findById(id, function(err, user) {
-     done(err, user);
-   });
- });
+// Use Passport's 'deserializeUser' method to load the user document
+	passport.deserializeUser(function(id, done) {
+		User.findOne({
+			_id: id
+		}, '-password -salt', function(err, user) {
+			done(err, user);
+		});
+	});
 
+	// Load Passport's strategies configuration files
    require('./strategies/local.js')();
 };
