@@ -7,11 +7,11 @@ var mongoose = require('mongoose'),
 var UserSchema = new Schema({
 	firstName : String,
 	lastName : String,
-	email : {
+	email: {
 		type: String,
-		index: true,
-		match: /.+\@.+\..+/
-       },
+		// Validate the email format
+		match: [/.+\@.+\..+/, "Please fill a valid email address"]
+	},
 	username : {
         type: String,
         trim: true,
@@ -21,18 +21,17 @@ var UserSchema = new Schema({
     	type: String,
     	enum: ['Admin', 'Owner', 'User']
     },
-	password : {
+	password: {
 		type: String,
+		// Validate the 'password' value length
 		validate: [
-		  function(password) {
-		  	return password.length >= 6;
-		  },
-		  'Password should be longer'
-		  ]
-		},
+			function(password) {
+				return password && password.length > 6;
+			}, 'Password should be longer'
+		]
+	},
 	salt: {
-		type: String,
-		required: 'Provider is required'
+		type: String
 	},
 	provider: {
 		type: String,
@@ -97,9 +96,10 @@ UserSchema.statics.findUniqueUsername = function(username, suffix, callback) {
     			if (!user) {
     				callback(possibleUsername);
     			} else {
-    				return _this.findUsername(username, (suffix || 0) + 1, callback);
+    				return _this.findUniqueUsername(username, (suffix || 0) + 1, callback);
     			}
-    		} else {callback(null);
+    		} else {
+    			callback(null);
     	  }
     	
     });
