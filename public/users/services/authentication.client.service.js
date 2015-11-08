@@ -5,4 +5,4 @@ angular.module('users').factory('Authentication', [
 			user: this.user
 		};
 	   }
-}]);
+]);

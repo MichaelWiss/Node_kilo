@@ -1,8 +1,8 @@
 'use strict';
 
-angular.module('example').controller('ExampleController', ['$scope',
-   function($scope) {
+angular.module('example').controller('ExampleController', ['$scope', 'Authentication',
+   function($scope, Authentication) {
 
-	$scope.name = 'Mean Application';
+	$scope.name = Authentication.user? Authentication.user.fullName :'MEAN Application';
 	}
 ]);
