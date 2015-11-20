@@ -17,8 +17,7 @@ var getErrorMessage = function(err) {
        }
 	} else {
 	  for (var errName in err.errors) {
-	  	if (err.errors[errName].message) message = 
-	  		err.errors[errName].message;
+	  	if (err.errors[errName].message) message = err.errors[errName].message;
 	  }
 	}
 	return message;
@@ -36,8 +35,7 @@ exports.renderSignin = function(req, res, next)
   	}
   };
 
-exports.renderSignup = function(req, res, next)
-  {
+exports.renderSignup = function(req, res, next) {
   	if (!req.user) {
   		res.render('signup', {
   			title: 'Sign-up Form',
@@ -128,3 +126,13 @@ exports.signout = function(req, res) {
 	// Redirect the user back to the main application page
 	res.redirect('/');
 };
+
+exports.requiresLogin = function(req, res, next)
+  {
+  	if (!req.isAuthenticated()) {
+  		return res.status(401).send({
+  			message: 'User is not logged in'
+  		});
+  	}
+  	next();
+  };
