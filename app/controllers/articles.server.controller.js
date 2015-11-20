@@ -48,3 +48,7 @@ exports.articleById = function(req, res, next, id) {
 		  });
 		};
 };
+
+exports.read = function(req, res) {
+	res.json(req.article)
+};
