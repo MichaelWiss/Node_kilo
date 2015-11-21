@@ -50,7 +50,7 @@ exports.articleById = function(req, res, next, id) {
 };
 
 exports.read = function(req, res) {
-	res.json(req.article)
+	res.json(req.article);
 };
 
 exports.update = function(req, res) {
@@ -87,7 +87,7 @@ exports.hasAuthorization = function(req, res, next) {
 	if (req.article.creator.id !== req.user.id)
 }
    return res.status(403).send({
-   	message: 'User is not authorised'
+   	message: 'User is not authorized'
    });
  }
  next();
