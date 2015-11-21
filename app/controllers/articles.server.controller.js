@@ -10,7 +10,7 @@ var getErrorMessage = function(err) {
 		}
 	} else {
 		return 'Unknown server error';
-}
+  }
 };
 
 exports.create = function(req, res) {
@@ -38,16 +38,6 @@ exports.list = function(req, res) {
 		}
 	  }); 
 	};
-exports.articleById = function(req, res, next, id) {
-	Article.findById(id),populate('creator', 'firstName lastName, fullName').exec(function
-		(err, article) {
-			if (err) return next(err);
-			if (!article) return next(new Error('Failed to load the article ' + id));
-			req.article = article;
-			next();
-		  });
-		};
-};
 
 exports.read = function(req, res) {
 	res.json(req.article);
@@ -82,10 +72,20 @@ exports.delete = function(req, res) {
 		}
 	  });
   };
+
+exports.articleById = function(req, res, next, id) {
+	Article.findById(id),populate('creator', 'firstName lastName, fullName').exec(function
+		(err, article) {
+			if (err) return next(err);
+			if (!article) return next(new Error('Failed to load the article ' + id));
+			req.article = article;
+			next();
+		  });
+		};
 	
 exports.hasAuthorization = function(req, res, next) {
 	if (req.article.creator.id !== req.user.id)
-}
+{
    return res.status(403).send({
    	message: 'User is not authorized'
    });
